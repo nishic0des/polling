@@ -22,9 +22,8 @@ connectDB();
 app.use(express.json({ limit: "10kb" }));
 app.use(
 	cors({
-		// origin: process.env.CLIENT_URL,
-		// credentials: true,
-		origin: "*",
+		origin: process.env.CLIENT_URL,
+		credentials: true,
 	}),
 );
 app.use(helmet());
@@ -39,7 +38,6 @@ export const io = new Server(server, {
 	cors: {
 		origin: process.env.CLIENT_URL,
 		methods: ["GET", "POST"],
-		credentials: true,
 	},
 });
 
