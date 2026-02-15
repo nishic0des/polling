@@ -27,7 +27,7 @@ app.use(
 		origin: "*",
 	}),
 );
-app.use(helmet);
+app.use(helmet());
 app.use(errorHandler);
 
 app.set("trust proxy", 1);
