@@ -6,11 +6,11 @@ Poll Kholo is an advanced real-time polling platform that enables users to creat
 
 ## Images
 
-![Home Page](/polling1.png)
-![Poll creation UI](/polling2.png)
-![Poll creation UI 2](/polling3.png)
-![Poll voting UI](/polling4.png)
-![Poll results UI](/polling5.png)
+![Home Page](client/public/polling1.png)
+![Poll creation UI](client/public/polling2.png)
+![Poll creation UI 2](client/public/polling3.png)
+![Poll voting UI](client/public/polling4.png)
+![Poll results UI](client/public/polling5.png)
 
 ## SYSTEM ARCHITECTURE
 
