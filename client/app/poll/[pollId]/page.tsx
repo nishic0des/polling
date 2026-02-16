@@ -128,7 +128,7 @@ export default function PollPage() {
 	const totalVotes = poll.options.reduce((sum, opt) => sum + opt.votes, 0);
 
 	return (
-		<div className="bg-slate-900 text-white min-h-screen">
+		<div className="bg-transparent text-white min-h-screen">
 			<Confetti isActive={confettiActive} duration={5000} />
 
 			<div className="max-w-xl mx-auto pt-10 space-y-4 py-10">

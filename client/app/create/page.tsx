@@ -1,20 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 import Confetti from "@/components/ui/confetti";
 import { toast } from "sonner";
 import CreatePollSkeleton from "@/components/skeletons/create-poll-skeleton";
+import { DeleteIcon, RotateCcw, Plus } from "lucide-react";
 
 export default function CreatePollPage() {
 	const router = useRouter();
 
-	const [question, setQuestion] = useState("");
-	const [options, setOptions] = useState(["", ""]);
+	const [question, setQuestion] = useState(() => {
+		if (typeof window !== "undefined") {
+			return localStorage.getItem("poll-question") || "";
+		}
+		return "";
+	});
+	const [options, setOptions] = useState(() => {
+		if (typeof window !== "undefined") {
+			const saved = localStorage.getItem("poll-options");
+			return saved ? JSON.parse(saved) : ["", ""];
+		}
+		return ["", ""];
+	});
 	const [loading, setLoading] = useState(false);
 	const [confettiActive, setConfettiActive] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			localStorage.setItem("poll-question", question);
+		}
+	}, [question]);
+
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			localStorage.setItem("poll-options", JSON.stringify(options));
+		}
+	}, [options]);
 	const createPoll = async () => {
 		try {
 			setLoading(true);
@@ -38,7 +62,11 @@ export default function CreatePollPage() {
 			});
 			setConfettiActive(true);
 
-			// Turn off confetti after animation duration
+			if (typeof window !== "undefined") {
+				localStorage.removeItem("poll-question");
+				localStorage.removeItem("poll-options");
+			}
+
 			setTimeout(() => {
 				setConfettiActive(false);
 			}, 10000);
@@ -53,6 +81,11 @@ export default function CreatePollPage() {
 		} finally {
 			setLoading(false);
 		}
+	};
+
+	const reset = () => {
+		setQuestion("");
+		setOptions(["", ""]);
 	};
 
 	const updateOption = (index: number, value: string) => {
@@ -75,35 +108,60 @@ export default function CreatePollPage() {
 	}
 
 	return (
-		<div className="bg-gray-900 min-h-screen text-white">
+		<div className="bg-transparent min-h-screen text-white z-50">
 			<Confetti isActive={confettiActive} duration={5000} />
 
-			<div className="max-w-xl mx-auto pt-10 space-y-4">
-				<h1 className="flex justify-center text-4xl font-bold">Create Poll</h1>
-				<input
-					className="w-full border p-2 bg-gray-700 rounded-2xl"
+			<div className="max-w-xl mx-auto pt-20 space-y-4">
+				<div className="flex justify-between items-center mb-4">
+					<h1 className="text-4xl text-white font-bold z-50">Open a Poll</h1>
+					<button
+						onClick={reset}
+						className="bg-slate-700 text-white px-4 py-2.5 rounded-2xl hover:bg-gray-600 transition-colors">
+						<RotateCcw height={20} width={20} />
+					</button>
+				</div>
+				<textarea
+					cols={50}
+					rows={5}
+					className="w-full p-3 rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-20 border border-gray-100"
 					placeholder="Enter question"
 					value={question}
 					onChange={(e) => setQuestion(e.target.value)}
 				/>
-				<span className="p-2">Add options:</span>
-				{options.map((opt, i) => (
-					<input
-						key={i}
-						className="w-full border p-2 mt-4 bg-gray-700 rounded-2xl"
-						placeholder={`Option ${i + 1}`}
-						value={opt}
-						onChange={(e) => updateOption(i, e.target.value)}
-					/>
+				<span className="font-bold block mb-4">Add options:</span>
+				{options.map((opt: number, i: number) => (
+					<div key={i} className="flex gap-2">
+						<input
+							className="flex-1 p-3 rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-20 border border-gray-100"
+							placeholder={`Option ${i + 1}`}
+							value={opt}
+							onChange={(e) => updateOption(i, e.target.value)}
+						/>
+						{options.length > 2 && (
+							<button
+								onClick={() => {
+									const newOptions = options.filter(
+										(_: number, index: number) => index !== i,
+									);
+									setOptions(newOptions);
+								}}
+								className="bg-red-500 text-white px-4 py-2.5 rounded-2xl hover:bg-red-600 transition-colors">
+								<DeleteIcon height={20} width={20} />
+							</button>
+						)}
+					</div>
 				))}
 				<div className="flex justify-between">
 					<button
 						onClick={() => setOptions([...options, ""])}
-						className="bg-gray-500 px-4 py-2 mt-2 rounded-2xl">
-						Add Option
+						className="p-2 rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-20 border border-gray-100">
+						<div className="flex flex-row text-md">
+							<Plus />
+							{"Add Option"}
+						</div>
 					</button>
 					<button
-						className="bg-blue-500 rounded-2xl text-white px-4 py-2"
+						className="p-2 bg-green-200 text-black text-md rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-10 border border-gray-300"
 						onClick={createPoll}
 						disabled={loading}>
 						{loading ? "Creating" : "Create Poll"}

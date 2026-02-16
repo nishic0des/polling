@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-
+import LightRays from "@/components/LightRays";
+import Navbar from "@/components/navbar";
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
@@ -26,7 +27,23 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}>
+				<LightRays
+					raysOrigin="top-center"
+					raysColor="#ffffff"
+					raysSpeed={1}
+					lightSpread={0.5}
+					rayLength={5}
+					followMouse={true}
+					mouseInfluence={0.1}
+					noiseAmount={0}
+					distortion={0}
+					className="custom-rays"
+					pulsating={false}
+					fadeDistance={3}
+					saturation={1}
+				/>
+				<Navbar/>
 				{children}
 				<Toaster />
 			</body>
