@@ -33,11 +33,9 @@ export default function PollPage() {
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		// Initialize socket connection
 		socket.connect();
 		socket.emit("joinPoll", pollId);
 
-		// Fetch initial poll data
 		const fetchPoll = async () => {
 			try {
 				const res = await api.get(`/polls/${pollId}`);
@@ -55,7 +53,6 @@ export default function PollPage() {
 
 		fetchPoll();
 
-		// Listen for real-time updates
 		socket.on("resultsUpdated", (updatedPoll: Poll) => {
 			setPoll(updatedPoll);
 		});
@@ -86,8 +83,7 @@ export default function PollPage() {
 			setHasVoted(true);
 			setConfettiActive(true);
 
-			// Turn off confetti after animation duration
-			setTimeout(() => {
+				setTimeout(() => {
 				setConfettiActive(false);
 			}, 5000);
 
