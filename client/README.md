@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Poll Kholo Frontend
+## Overview
+The frontend of Poll Kholo is built on Next.js and uses Shadcn components to achieve the futuristic and elegant UI design. It consists of three pages, the home page, the create poll page, and the voting page. 
 
-## Getting Started
+## Features
+The frontend of Poll kholo consists of the following features:
+- Futuristic UI
+- Persistent storage of data using local storage on the create poll page
+- Add/Delete options when creating polls
+- Toasts used, to show proper error/success messages
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Components
+The following Shadcn components have been used in the project:
+- Background: https://reactbits.dev/backgrounds/light-rays
+- Home page animations:
+	- https://reactbits.dev/text-animations/split-text
+	- https://reactbits.dev/text-animations/rotating-text
+- Navigation bar: https://reactbits.dev/text-animations/shiny-text 
+## Usage
+Clone the repository and navigate to the client directory using:
+`cd client`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Run `npm install && npm run dev` and you'll see the frontend live on `http://localhost:3000`
+ ## Environment variables
+ Create a `.env.local` and add the `NEXT_PUBLIC_API_URL` to connect to the server.
